@@ -1,5 +1,6 @@
 echo -e "\033[1;36m🔍 PortCheck - Legal Port Scanner\033[0m"
 echo "============================================="
+echo -e "\033[1;31mMade by Rekapt.dev\033[0m"
 echo
 
 read -p "Enter an IP address or domain to scan: " target
@@ -11,7 +12,7 @@ fi
 
 echo
 echo -e "⏳ Scanning top 100 ports on $target ...\n"
-nmap_output=$(nmap -Pn -T4 --top-ports 100 "$target")
+nmap_output=$(nmap -Pn -T4 --top-ports 100 $target)
 echo "$nmap_output" | grep "^PORT" -A 100
 
 echo
