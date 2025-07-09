@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo -e "\033[1;36m🔍 PortCheck - Legal Port Scanner\033[0m"
 echo "============================================="
 echo -e "\033[1;31mMade by Rekapt.dev\033[0m"
@@ -5,9 +7,27 @@ echo
 
 read -p "Enter an IP address or domain to scan: " target
 
+# Check if nmap is installed
 if ! command -v nmap &> /dev/null; then
-  echo -e "\033[1;31m❌ Error: 'nmap' is not installed. Please install it with 'sudo apt install nmap'.\033[0m"
-  exit 1
+  echo -e "\033[1;31m❌ Error: 'nmap' is not installed.\033[0m"
+  read -p "❓ Would you like me to install 'nmap' for you? (Y/N): " install_choice
+
+  case "$install_choice" in
+    [Yy]* )
+      echo -e "\033[1;34m📦 Attempting to install 'nmap'...\033[0m"
+      sudo apt update && sudo apt install -y nmap
+      if ! command -v nmap &> /dev/null; then
+        echo -e "\033[1;31m❌ Installation failed. Please install 'nmap' manually.\033[0m"
+        exit 1
+      else
+        echo -e "\033[1;32m✅ 'nmap' was installed successfully.\033[0m"
+      fi
+      ;;
+    * )
+      echo -e "\033[1;31m🚫 'nmap' is required to continue. Exiting...\033[0m"
+      exit 1
+      ;;
+  esac
 fi
 
 echo
